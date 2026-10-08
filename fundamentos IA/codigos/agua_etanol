@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.ensemble import IsolationForest
+
+np.random.seed(42)
+
+# Gerando dados simulados de teor de água
+normal_water_content = np.random.normal(7.8, 0.3, 1000)
+anomaly_water_content = np.concatenate([
+    np.random.normal(9.5, 0.1, 25),
+    np.random.normal(5.5, 0.1, 25)
+])
+
+# Combinando os dados
+water_content_data = np.concatenate([normal_water_content, anomaly_water_content]).reshape(-1, 1)
+
+# Aplicando o modelo de detecção de anomalias
+model = IsolationForest(n_estimators=100, contamination=0.05, random_state=42)
+model.fit(water_content_data)
+predictions = model.predict(water_content_data)
+
+normal_values = water_content_data[predictions == 1]
+anomaly_values = water_content_data[predictions == -1]
+
+# Faixa esperada de pureza do etanol hidratado
+normal_range_min, normal_range_max = 7.2, 8.4
+
+# Visualização dos resultados
+plt.figure(figsize=(10, 6))
+plt.hist(normal_values, bins=30, alpha=0.7, label="Normal Data")
+plt.hist(anomaly_values, bins=30, alpha=0.7, color="red", label="Anomalies")
+plt.axvspan(normal_range_min, normal_range_max, color="green", alpha=0.2, label="Faixa Normal (7.2% - 8.4%)")
+plt.xlabel("Teor de Água no Etanol (%)")
+plt.ylabel("Frequência")
+plt.title("Detecção de Anomalias no Teor de Água do Etanol Hidratado")
+plt.legend()
+plt.show()

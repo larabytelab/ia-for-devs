@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: cursofiap-package-gabrielle
+Version: 1.0.0
+Summary: pacote criado para aula de python
+Home-page: https://github.com/gabrielle19/cursofiap
+Author: Gabrielle M Feitosa
+Author-email: gabriellemiguel14@gmail.com
+License: MIT
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: summary
+
+# Cursofiap
+
+A simple example library.
+
+## Installation
+
+```sh
+pip install cursofiap
+```
+
+## Usage
+
+```python
+from cursofiap import hello_world
+
+print(hello_world())
+```

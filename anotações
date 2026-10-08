@@ -1,0 +1,11 @@
+Bibliotecas Python: As mais usadas em IA:
+
+- Numpy e scipy: par aooperações matematicas e cientificas
+- Pandas: Para manipulação de analise de dados
+- matplolim e seaborn: apra visualização de dados (graficos)
+- scikit-learn: para algoritmos de aprendizado de maquina
+- tensorflow e keras: para deep learning e redes neurais
+- pytorch: para flexibilidade e uso em pesquisa de deep learning
+
+
+Prestar atençao nas licenças dos modelos

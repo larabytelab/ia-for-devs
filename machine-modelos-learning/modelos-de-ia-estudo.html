@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelos de IA — Guia de estudo + Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F5F7;
+    --panel:#FFFFFF;
+    --ink:#15171E;
+    --ink-soft:#4A4E5A;
+    --line:#E2E4EA;
+    --indigo:#4B37D8;
+    --indigo-soft:#EEEBFC;
+    --magenta:#E01A6B;
+    --amber:#B45309;
+    --amber-soft:#FBF0DD;
+    --ok:#0E8F5E;
+    --ok-soft:#E4F5EC;
+    --no:#D8352A;
+    --no-soft:#FBE9E7;
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px}
+
+  /* ---------- HERO ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(224,26,107,.07), transparent 55%),
+      radial-gradient(120% 140% at 0% 0%, rgba(75,55,216,.08), transparent 55%);
+  }
+  .hero{padding:56px 0 44px}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--magenta);font-weight:500;margin-bottom:18px;display:flex;gap:10px;align-items:center;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--magenta)}
+  h1{
+    font-family:var(--display);font-weight:700;font-size:clamp(32px,6vw,52px);
+    line-height:1.04;letter-spacing:-.02em;margin-bottom:16px;
+  }
+  h1 em{font-style:normal;color:var(--indigo)}
+  .lede{font-size:17px;color:var(--ink-soft);max-width:60ch}
+  .filechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .chip{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:5px 12px;
+  }
+  .chip b{color:var(--indigo);font-weight:700}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:52px 0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:30px}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--magenta);font-weight:700}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(24px,4vw,32px);letter-spacing:-.01em}
+
+  /* ---------- RESUMO CARDS ---------- */
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:26px 26px 24px;margin-bottom:18px;
+  }
+  .card h3{
+    font-family:var(--display);font-weight:600;font-size:19px;margin-bottom:6px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .tag{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 8px;border-radius:6px;font-weight:700;white-space:nowrap;
+  }
+  .tag.core{background:var(--indigo-soft);color:var(--indigo)}
+  .tag.tech{background:var(--amber-soft);color:var(--amber)}
+  .tag.ops{background:var(--ok-soft);color:var(--ok)}
+  .card p{margin-top:10px;color:var(--ink-soft)}
+  .card p strong{color:var(--ink);font-weight:600}
+  code{font-family:var(--mono);font-size:.86em;background:var(--paper);border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;color:var(--indigo)}
+  .analogy{
+    margin-top:14px;border-left:3px solid var(--magenta);background:#fdf3f7;
+    padding:11px 16px;border-radius:0 8px 8px 0;font-size:14.5px;color:var(--ink-soft);
+  }
+  .analogy b{color:var(--magenta)}
+  .work{
+    margin-top:10px;border-left:3px solid var(--indigo);background:var(--indigo-soft);
+    padding:11px 16px;border-radius:0 8px 8px 0;font-size:14.5px;color:var(--ink-soft);
+  }
+  .work b{color:var(--indigo)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .mini{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .mini h4{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink);margin-bottom:6px}
+  .mini p{margin-top:0;font-size:14px}
+  @media(max-width:560px){.split{grid-template-columns:1fr}}
+
+  /* ---------- QUIZ ---------- */
+  #quiz-head{border-top:1px solid var(--line)}
+  .quiz-meta{display:flex;justify-content:space-between;align-items:center;gap:16px;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:24px;flex-wrap:wrap}
+  .quiz-meta span{font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+  .quiz-meta b{color:var(--indigo)}
+  .bar{flex:1;min-width:120px;height:8px;background:var(--paper);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--indigo),var(--magenta));transition:width .4s ease}
+
+  .q-divider{display:flex;align-items:center;gap:14px;margin:34px 2px 18px;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--magenta);font-weight:700}
+  .q-divider::before,.q-divider::after{content:"";height:1.5px;background:var(--line);flex:1}
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 24px 20px;margin-bottom:16px}
+  .q-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+  .q-num{font-family:var(--mono);font-weight:700;font-size:13px;color:#fff;background:var(--ink);
+    border-radius:7px;padding:4px 9px;flex-shrink:0;margin-top:2px}
+  .q-text{font-family:var(--display);font-weight:500;font-size:17.5px;line-height:1.35}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{
+    display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;
+    background:var(--paper);border:1.5px solid var(--line);border-radius:10px;
+    padding:13px 15px;font-family:var(--body);font-size:15px;color:var(--ink);
+    cursor:pointer;transition:border-color .15s,background .15s;line-height:1.4;
+  }
+  .opt:hover:not(:disabled){border-color:var(--indigo)}
+  .opt:disabled{cursor:default}
+  .opt .key{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink-soft);flex-shrink:0;
+    width:22px;height:22px;border:1.5px solid var(--line);border-radius:6px;display:grid;place-items:center;margin-top:1px}
+  .opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+  .opt.correct .key{border-color:var(--ok);background:var(--ok);color:#fff}
+  .opt.wrong{border-color:var(--no);background:var(--no-soft)}
+  .opt.wrong .key{border-color:var(--no);background:var(--no);color:#fff}
+  .opt.dim{opacity:.55}
+  .explain{margin-top:14px;font-size:14.5px;color:var(--ink-soft);border-left:3px solid var(--indigo);
+    background:var(--indigo-soft);padding:12px 16px;border-radius:0 8px 8px 0;display:none}
+  .explain.show{display:block;animation:fade .3s ease}
+  .explain b{color:var(--indigo)}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  /* ---------- RESULT ---------- */
+  #result{display:none;background:var(--ink);color:#fff;border-radius:16px;padding:34px 30px;text-align:center;margin-top:8px}
+  #result.show{display:block;animation:fade .4s ease}
+  #result .score{font-family:var(--display);font-weight:700;font-size:60px;line-height:1;letter-spacing:-.02em}
+  #result .score small{font-size:26px;color:#9aa0b0;font-weight:500}
+  #result .verdict{font-family:var(--display);font-size:22px;margin:14px 0 8px}
+  #result p{color:#b8bcc9;font-size:15px;max-width:46ch;margin:0 auto}
+  .retry{margin-top:24px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;
+    background:var(--magenta);color:#fff;border:none;border-radius:10px;padding:13px 24px;cursor:pointer;transition:transform .15s}
+  .retry:hover{transform:translateY(-2px)}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 50px;text-align:center;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
+  :focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <div class="eyebrow">Módulo 3 · Modelos de Inteligência Artificial</div>
+    <h1>Abrindo o <em>capô</em> de um modelo de IA</h1>
+    <p class="lede">Um modelo não é um cérebro mágico — é um arquivo cheio de números. Este guia junta os conceitos-chave da matéria com analogias, exemplos de trabalho e um quiz que corrige na hora. A ideia é simples: você sai daqui entendendo.</p>
+    <div class="filechips">
+      <span class="chip"><b>config.json</b> · arquitetura</span>
+      <span class="chip"><b>model.safetensors</b> · pesos</span>
+      <span class="chip"><b>tokenizer.json</b> · tradutor</span>
+      <span class="chip"><b>.gguf</b> · versão local</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ RESUMO ============ -->
+<section id="resumo">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Resumo dos pontos importantes</h2></div>
+
+    <div class="card">
+      <h3>O que é um modelo, afinal <span class="tag core">conceito</span></h3>
+      <p>Na essência, um modelo de IA é uma <strong>representação matemática da realidade</strong>. Na programação tradicional você escreve a regra (ex.: "multiplique por 1.8 e some 32"). Na IA você <strong>não sabe a regra</strong> — só tem exemplos (dados), e a máquina constrói sozinha uma função que imita a realidade.</p>
+      <div class="split">
+        <div class="mini"><h4>Algoritmo</h4><p>A ferramenta "vazia": a lógica de aprendizado (regressão linear, rede neural). É a capacidade de aprender.</p></div>
+        <div class="mini"><h4>Modelo</h4><p>O resultado final. O que sobra depois que o algoritmo estudou os dados. É o arquivo que você salva e usa.</p></div>
+      </div>
+      <div class="analogy"><b>Analogia:</b> aprender violão. Você (que aprende) é o <b>algoritmo</b>; as partituras são os <b>dados</b>; praticar é o <b>treinamento</b>; e a habilidade cristalizada na sua mão é o <b>modelo</b>.</div>
+    </div>
+
+    <div class="card">
+      <h3>O modelo é, fisicamente, um arquivo <span class="tag core">conceito</span></h3>
+      <p>Não é um robô nem uma tela. É um <strong>arquivo binário</strong> (<code>.safetensors</code>, <code>.gguf</code>, <code>.bin</code>) que pode ter de kilobytes a centenas de gigabytes. Dentro dele: <strong>números</strong> — milhares, milhões ou bilhões deles, chamados de <strong>parâmetros</strong> (ou pesos).</p>
+      <div class="analogy"><b>Analogia:</b> um painel de avião com milhões de botões giratórios. No começo estão em posições aleatórias (o modelo é "burro"). O treinamento gira cada botão até o avião voar. O modelo final é só o <b>registro da posição exata de cada botão</b>.</div>
+    </div>
+
+    <div class="card">
+      <h3>Anatomia: arquitetura + parâmetros <span class="tag core">conceito</span></h3>
+      <p><strong>Arquitetura</strong> é o design da rede — quantas camadas, como os neurônios se conectam, quais operações acontecem. É a "planta baixa da casa": diz onde ficam as paredes, mas sozinha não é habitável. Ex.: <code>ResNet</code> (imagens), <code>Transformer</code> (texto, base do GPT).</p>
+      <p><strong>Parâmetros</strong> são o conhecimento. Dividem-se em <strong>pesos</strong> (a força da conexão entre dois neurônios) e <strong>vieses/biases</strong> (o ajuste fino, como o botão de "tara" de uma balança).</p>
+      <div class="analogy"><b>Analogia (empréstimo):</b> "salário alto" ganha um <b>peso alto e positivo</b> (aumenta a aprovação), "dívida alta" um <b>peso negativo</b>, e "cor da camisa" um peso <b>perto de zero</b> (irrelevante).</div>
+    </div>
+
+    <div class="card">
+      <h3>Embedding: traduzir o mundo em números <span class="tag core">conceito</span></h3>
+      <p>É a tradução de "coisas do mundo real" (palavras, imagens, sons) para uma <strong>lista de números (vetor)</strong> que preserva o significado. Sem embedding, o computador vê "Rei" só como as letras R-E-I. Com embedding, "Rei" vira algo como <code>[0.9, -0.4, 0.5]</code>, e "Rainha" fica <strong>numericamente pertinho</strong> — enquanto "Maçã" fica bem longe.</p>
+      <p>É isso que permite a IA saber que "Cachorro" está mais perto de "Lobo" do que de "Banana", sem ninguém ter ensinado biologia pra ela.</p>
+    </div>
+
+    <div class="card">
+      <h3>Hiperparâmetros: as configurações <span class="tag core">conceito</span></h3>
+      <p>Diferente dos pesos (que o modelo aprende sozinho), os <strong>hiperparâmetros são definidos pelo humano antes do treino</strong>. Ex.: quantas camadas a rede terá, ou a velocidade de aprendizado (<em>learning rate</em>).</p>
+      <div class="analogy"><b>Analogia:</b> ensinar uma criança a andar de bicicleta. Os <b>parâmetros</b> são o equilíbrio e a força muscular que ela desenvolve; os <b>hiperparâmetros</b> são a altura do banco e o tamanho das rodinhas que você ajustou antes de ela começar.</div>
+    </div>
+
+    <div class="card">
+      <h3>Formatos de arquivo: a "sopa de letrinhas" <span class="tag tech">técnico</span></h3>
+      <p>Salvar um modelo em arquivo se chama <strong>serialização</strong>. Existem várias "embalagens", cada uma com um propósito:</p>
+      <div class="split">
+        <div class="mini"><h4>.pkl (Pickle)</h4><p>Nativo do Python, fácil de usar, mas <strong>inseguro</strong>: como uma caixa opaca, alguém pode esconder código malicioso dentro. Ótimo para testes, evitado em produção.</p></div>
+        <div class="mini"><h4>.safetensors</h4><p>O "queridinho" do Hugging Face. Um <strong>cofre transparente</strong>: só números, nada de código executável. Rápido, leve e seguro — padrão da indústria hoje.</p></div>
+        <div class="mini"><h4>.onnx</h4><p>O "adaptador universal". Treine em Python e rode em iPhone, Java ou C++. Como salvar em <strong>PDF</strong>: abre em qualquer lugar.</p></div>
+        <div class="mini"><h4>.gguf</h4><p>O formato de rodar IA generativa (Llama, Mistral) no seu próprio notebook, via Ollama. Ligado à <strong>quantização</strong>.</p></div>
+      </div>
+      <div class="analogy"><b>Quantização:</b> modelos usam números de precisão extrema (<code>0.123456789</code>). A quantização "arredonda" (<code>0.12</code>). É como transformar uma foto 4K em Full HD — perde um detalhinho, mas o arquivo fica ~4× menor e cabe no seu computador.</div>
+    </div>
+
+    <div class="card">
+      <h3>IA na nuvem × IA local <span class="tag ops">estratégia</span></h3>
+      <p>Ao usar ChatGPT (OpenAI) ou Claude (Anthropic), você usa um modelo <strong>proprietário</strong>: não tem o arquivo, e seus dados viajam até os servidores da empresa. Já Meta, Mistral e Microsoft liberam modelos de <strong>pesos abertos (open weights)</strong> — você baixa o "cérebro" (<code>.gguf</code>/<code>.safetensors</code>), guarda no pen-drive e roda <strong>offline</strong>.</p>
+      <p>O <strong>Ollama</strong> é a ferramenta que popularizou isso. Pense nele como um <strong>console de videogame</strong>: os modelos (Llama 3, Mistral, Phi-3) são os "cartuchos". Você digita <code>ollama run llama3</code> e pronto.</p>
+      <div class="work"><b>Os 3 Ps para migrar pra IA local:</b> <b>Privacidade</b> (um escritório de advocacia resume processos sigilosos sem nada sair da sala), <b>Performance/latência</b> (numa fábrica, responder em milissegundos sem depender da internet) e <b>Previsibilidade de custo</b> (API cobra por volume; local o custo é fixo — o hardware).</div>
+    </div>
+
+    <div class="card">
+      <h3>MLOps: o ciclo de vida do modelo <span class="tag ops">estratégia</span></h3>
+      <p>"Código não apodrece" — mas <strong>modelos de IA apodrecem</strong>: envelhecem, perdem precisão e começam a errar. MLOps (Machine Learning Operations) cuida do modelo do nascimento à aposentadoria, em 4 fases:</p>
+      <div class="split">
+        <div class="mini"><h4>1 · Desenvolvimento</h4><p>O laboratório. Testa algoritmos, limpa dados, ajusta hiperparâmetros. Precisa ser reproduzível — "na minha máquina funciona" é frase proibida.</p></div>
+        <div class="mini"><h4>2 · Model Registry</h4><p>O cartório. Catálogo versionado (v1.0, v1.1) com metadados. Permite <strong>rollback</strong>: se a v2.0 dá prejuízo, você volta pra v1.9 num botão.</p></div>
+        <div class="mini"><h4>3 · Deployment</h4><p>A entrega. <strong>Real-time</strong> (vira API, responde em ms — chatbot, Netflix) ou <strong>Batch</strong> (roda em lote de madrugada — score de crédito).</p></div>
+        <div class="mini"><h4>4 · Monitoramento</h4><p>A parte crítica. Não basta ver se o servidor caiu (erro técnico) — é preciso ver se o modelo <strong>ficou burro</strong> (erro comportamental).</p></div>
+      </div>
+      <div class="work"><b>No trabalho:</b> MLOps não é linha reta, é círculo — treina → põe em produção → monitora → detecta queda → coleta dados novos e <b>retreina</b> (volta pra fase 1).</div>
+    </div>
+
+    <div class="card">
+      <h3>Os dois "assassinos" de modelos: Drift <span class="tag ops">estratégia</span></h3>
+      <div class="split">
+        <div class="mini"><h4>Data Drift</h4><p>Mudança nos <strong>dados</strong>: o mundo muda e a entrada de hoje é diferente da do treino. Ex.: modelo treinado em 2019 para roupas formais — em 2020 (pandemia) todo mundo passou a comprar pijama. O modelo funciona, mas erra tudo.</p></div>
+        <div class="mini"><h4>Concept Drift</h4><p>Mudança no <strong>conceito</strong>: a relação entre entrada e saída muda. Ex.: detecção de fraude — os fraudadores descobrem como o modelo funciona e mudam as táticas. O que era "seguro" vira fraude.</p></div>
+      </div>
+      <div class="work"><b>Regra prática:</b> Data Drift = <b>o mundo</b> mudou. Concept Drift = <b>as regras do jogo</b> mudaram. Nos dois casos, a resposta é retreinar.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz-head">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Quiz — teste seu entendimento</h2></div>
+    <div class="quiz-meta">
+      <span>Progresso: <b id="answered">0</b>/<b id="total">15</b></span>
+      <div class="bar"><i id="progbar"></i></div>
+      <span>Acertos: <b id="hits">0</b></span>
+    </div>
+    <div id="quiz"></div>
+    <div id="result">
+      <div class="score"><span id="finalscore">0</span><small>/<span id="finaltotal">15</span></small></div>
+      <div class="verdict" id="verdict"></div>
+      <p id="rmsg"></p>
+      <button class="retry" onclick="resetQuiz()">Refazer o quiz</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Guia de estudo · Modelos de IA — feito para revisar antes da prova.</div>
+</footer>
+
+<script>
+const QUESTIONS = [
+  {
+    q: "Na sua essência mais pura, o que é um modelo de IA?",
+    options: [
+      "Um robô físico que pensa de forma autônoma",
+      "Uma representação matemática da realidade",
+      "Um conjunto de regras if/else escritas por um programador",
+      "Uma interface gráfica que conversa com o usuário"
+    ],
+    answer: 1,
+    explain: "Um modelo é uma <b>função matemática</b> que a máquina construiu para imitar a realidade a partir de exemplos. Na programação tradicional escrevemos a regra; na IA não sabemos a regra — só temos os dados."
+  },
+  {
+    q: "Qual é a diferença entre algoritmo e modelo?",
+    options: [
+      "São exatamente a mesma coisa, só muda o nome",
+      "O algoritmo é o arquivo final; o modelo é o código de aprendizado",
+      "O algoritmo é a lógica de aprendizado (a ferramenta vazia); o modelo é o resultado já treinado",
+      "O modelo roda na nuvem e o algoritmo roda localmente"
+    ],
+    answer: 2,
+    explain: "O <b>algoritmo</b> é a ferramenta \"vazia\" (regressão linear, rede neural). O <b>modelo</b> é o que sobra depois que esse algoritmo processou os dados e aprendeu as regras — o arquivo que você salva e usa."
+  },
+  {
+    q: "O que é um modelo \"fisicamente\", dentro do computador?",
+    options: [
+      "Um programa com interface visual",
+      "Um arquivo binário cheio de números (parâmetros)",
+      "Uma planilha de regras em português",
+      "Um banco de dados de perguntas e respostas"
+    ],
+    answer: 1,
+    explain: "É um <b>arquivo</b> (ex.: <code>.safetensors</code>, <code>.gguf</code>, <code>.bin</code>) que contém milhares, milhões ou bilhões de <b>números</b> chamados parâmetros ou pesos — não regras escritas nem código if/else."
+  },
+  {
+    q: "Na anatomia de um modelo, o que é a ARQUITETURA?",
+    options: [
+      "Os números que guardam o conhecimento aprendido",
+      "O design da rede: quantas camadas, como os neurônios se conectam, quais operações acontecem",
+      "O arquivo de configuração de segurança do modelo",
+      "A quantidade de dados usada no treinamento"
+    ],
+    answer: 1,
+    explain: "A arquitetura é a \"planta baixa da casa\": define o caminho que o dado percorre da entrada à saída. Sozinha ela é só um desenho — não é habitável. Ex.: <code>ResNet</code> (imagens), <code>Transformer</code> (texto)."
+  },
+  {
+    q: "O que os PESOS (weights) representam num modelo?",
+    options: [
+      "O tamanho do arquivo em gigabytes",
+      "A força da conexão entre dois neurônios",
+      "A velocidade de aprendizado definida pelo humano",
+      "O número de camadas da rede neural"
+    ],
+    answer: 1,
+    explain: "Os pesos representam a <b>força da conexão</b> entre neurônios. Num modelo de empréstimo, \"salário alto\" teria peso alto e positivo; \"cor da camisa\" teria peso perto de zero (irrelevante)."
+  },
+  {
+    q: "O que é um EMBEDDING?",
+    options: [
+      "Um vírus que pode vir escondido em arquivos .pkl",
+      "A tradução de coisas do mundo real (palavras, imagens) para uma lista de números que preserva o significado",
+      "O processo de arredondar números para economizar espaço",
+      "A ferramenta que roda modelos localmente"
+    ],
+    answer: 1,
+    explain: "Embedding transforma \"coisas do mundo real\" em <b>vetores de números</b>. É por isso que a IA sabe que \"Cachorro\" está numericamente perto de \"Lobo\" e longe de \"Banana\" — sem ninguém ter ensinado biologia pra ela."
+  },
+  {
+    q: "O que diferencia HIPERPARÂMETROS de parâmetros?",
+    options: [
+      "Hiperparâmetros são aprendidos sozinhos; parâmetros são definidos pelo humano",
+      "Hiperparâmetros são definidos pelo humano ANTES do treino; parâmetros são aprendidos pela máquina",
+      "São a mesma coisa em modelos grandes",
+      "Hiperparâmetros só existem em modelos de imagem"
+    ],
+    answer: 1,
+    explain: "Os <b>parâmetros</b> (pesos) o modelo aprende sozinho. Os <b>hiperparâmetros</b> são as configurações que o humano define antes de começar — ex.: número de camadas e o <em>learning rate</em>."
+  },
+  {
+    q: "Por que o formato Pickle (.pkl) é considerado INSEGURO?",
+    options: [
+      "Porque só funciona em Python antigo",
+      "Porque é muito pesado e lento para carregar",
+      "Porque é uma \"caixa opaca\" onde alguém pode esconder código malicioso que executa ao abrir",
+      "Porque perde precisão ao arredondar os números"
+    ],
+    answer: 2,
+    explain: "O <code>.pkl</code> é fácil, mas opaco: alguém mal-intencionado pode colocar um \"vírus\" junto do modelo, que executa quando você carrega o arquivo. Ótimo para testes, evitado em sistemas profissionais."
+  },
+  {
+    q: "Qual formato é conhecido como o \"cofre transparente\", seguro e padrão da indústria moderna?",
+    options: [
+      ".pkl (Pickle)",
+      ".safetensors",
+      ".onnx",
+      ".csv"
+    ],
+    answer: 1,
+    explain: "O <code>.safetensors</code> (do Hugging Face) surgiu para resolver a insegurança do Pickle. Você vê exatamente o que tem dentro (só números), garantindo que não há código malicioso escondido."
+  },
+  {
+    q: "Para que serve a QUANTIZAÇÃO (ligada ao formato .gguf)?",
+    options: [
+      "Aumentar a precisão dos números do modelo",
+      "Arredondar os números para o arquivo ficar menor e caber num computador pessoal",
+      "Traduzir o modelo para outras linguagens de programação",
+      "Registrar a versão do modelo no cartório"
+    ],
+    answer: 1,
+    explain: "A quantização \"arredonda\" números de precisão extrema (<code>0.123456789</code> → <code>0.12</code>). É como transformar uma foto 4K em Full HD: perde um detalhinho, mas fica ~4× menor e roda no seu notebook."
+  },
+  {
+    q: "O formato ONNX (.onnx) resolve principalmente qual problema?",
+    options: [
+      "Segurança contra código malicioso",
+      "Compatibilidade: treinar em Python e rodar em iPhone, Java ou sistemas antigos",
+      "Reduzir o tamanho do arquivo pela metade",
+      "Guardar o histórico de versões do modelo"
+    ],
+    answer: 1,
+    explain: "O ONNX é o \"adaptador universal\". Assim como um PDF abre em qualquer lugar, ele permite treinar em Python e enviar o modelo para rodar em outros ambientes e linguagens."
+  },
+  {
+    q: "Qual a principal diferença entre um modelo proprietário (nuvem) e um de pesos abertos (local)?",
+    options: [
+      "O proprietário é sempre gratuito; o aberto é pago",
+      "No aberto você baixa o arquivo do modelo e roda offline; no proprietário seus dados viajam até os servidores da empresa",
+      "O aberto é sempre mais inteligente que o proprietário",
+      "Não há diferença prática entre os dois"
+    ],
+    answer: 1,
+    explain: "Em modelos <b>proprietários</b> (ChatGPT, Claude) você não tem o arquivo e seus dados viajam pra nuvem. Em <b>pesos abertos</b> (Llama, Mistral) você baixa o \"cérebro\", guarda no pen-drive e roda sem internet."
+  },
+  {
+    q: "Uma advogada usa Ollama para resumir processos sigilosos localmente. Qual dos \"3 Ps\" isso representa?",
+    options: [
+      "Performance (latência)",
+      "Previsibilidade de custo",
+      "Privacidade (soberania de dados)",
+      "Portabilidade"
+    ],
+    answer: 2,
+    explain: "É <b>Privacidade</b>: como a IA roda localmente, nenhuma vírgula do processo sai do escritório — o cabo da internet pode até estar desconectado. Os outros Ps são performance/latência e previsibilidade de custo."
+  },
+  {
+    q: "Um modelo treinado em 2019 para prever venda de roupas formais passa a errar em 2020, quando todos compram pijama. Que fenômeno é esse?",
+    options: [
+      "Concept Drift (mudança no conceito)",
+      "Data Drift (mudança nos dados)",
+      "Rollback",
+      "Quantização"
+    ],
+    answer: 1,
+    explain: "É <b>Data Drift</b>: o mundo mudou e os dados que chegam hoje são diferentes dos do treino. O modelo funciona tecnicamente, mas suas previsões ficam erradas porque o comportamento do consumidor mudou."
+  },
+  {
+    q: "No MLOps, qual fase permite fazer ROLLBACK — voltar rapidamente para uma versão anterior do modelo?",
+    options: [
+      "Fase 1 · Desenvolvimento",
+      "Fase 2 · Model Registry",
+      "Fase 3 · Deployment",
+      "Fase 4 · Monitoramento"
+    ],
+    answer: 1,
+    explain: "O <b>Model Registry</b> é o \"cartório\": um catálogo versionado (v1.0, v1.1, v2.0) com metadados. Se a v2.0 dá prejuízo, você aperta um botão e volta pra v1.9, porque o arquivo antigo está salvo e catalogado."
+  },
+
+  {
+    section: "Nível avançado · questões que cruzam dois conceitos",
+    q: "Dois modelos usam exatamente a MESMA arquitetura (Transformer), mas um traduz textos e o outro detecta spam. O que explica a diferença de comportamento?",
+    options: [
+      "A arquitetura de cada um é secretamente diferente",
+      "Os hiperparâmetros são iguais, mas os algoritmos mudam",
+      "Os parâmetros (pesos e vieses) aprendidos são diferentes — é o conhecimento, não o esqueleto, que os torna únicos",
+      "Um roda na nuvem e o outro roda localmente"
+    ],
+    answer: 2,
+    explain: "A arquitetura é só a \"planta baixa\" (o esqueleto). O que torna cada modelo único são os <b>parâmetros</b> aprendidos no treino. Mesma casa, moradores diferentes: mesma arquitetura, pesos diferentes."
+  },
+  {
+    q: "Tanto um EMBEDDING quanto os PESOS de um modelo são listas de números. Qual afirmação distingue corretamente os dois?",
+    options: [
+      "São sinônimos; \"embedding\" é só o nome comercial de \"pesos\"",
+      "O embedding representa o significado de uma ENTRADA (palavra, imagem) como vetor; os pesos representam a FORÇA das conexões aprendidas na rede",
+      "O embedding é definido pelo humano antes do treino; os pesos são aprendidos",
+      "O embedding só existe em modelos de imagem; os pesos só em modelos de texto"
+    ],
+    answer: 1,
+    explain: "Os dois são vetores, mas com papéis diferentes: <b>embedding</b> = a tradução do dado de entrada em números que preservam significado; <b>pesos</b> = a força das conexões entre neurônios, ajustada no treino."
+  },
+  {
+    q: "Para o GPT processar a frase \"Olá Mundo\", qual é a ordem correta das etapas?",
+    options: [
+      "Embedding traduz o significado → tokenizer vira números → Transformer processa",
+      "Tokenizer transforma em números (ex.: [15496, 2159]) → embedding vira vetores com significado → arquitetura Transformer processa o contexto",
+      "Transformer lê as letras → embedding arredonda os números → tokenizer salva o arquivo",
+      "Quantização reduz a frase → tokenizer traduz → pesos respondem"
+    ],
+    answer: 1,
+    explain: "O modelo não lê palavras, lê números. Primeiro o <b>tokenizer</b> vira uma sequência numérica; depois o <b>embedding</b> transforma em vetores que preservam significado; então a arquitetura <b>Transformer</b> entende o contexto."
+  },
+  {
+    q: "Um modelo de detecção de fraude em produção (API real-time) começa a falhar porque os fraudadores mudaram de tática. Qual é o diagnóstico completo e a resposta correta?",
+    options: [
+      "É Data Drift, detectado no Deployment; a resposta é fazer rollback permanente",
+      "É Concept Drift, detectado na fase de Monitoramento; a resposta é coletar dados novos e retreinar",
+      "É falha técnica do servidor; a resposta é reiniciar a API",
+      "É erro de quantização; a resposta é usar .safetensors"
+    ],
+    answer: 1,
+    explain: "Quando a RELAÇÃO entrada→saída muda (o que era \"seguro\" virou fraude), é <b>Concept Drift</b>. Isso é um erro comportamental (\"o modelo ficou burro\"), pego na fase de <b>Monitoramento</b>, e o ciclo do MLOps manda <b>retreinar</b>."
+  },
+  {
+    q: "Você precisa distribuir um modelo para rodar OFFLINE em notebooks de clientes, com o menor tamanho possível E sem risco de código malicioso embutido. Qual par de decisões faz mais sentido?",
+    options: [
+      "Salvar em .pkl e enviar por e-mail",
+      "Quantizar para .gguf (para caber e rodar local) e evitar o .pkl, que pode esconder código malicioso",
+      "Usar .onnx quantizado e criptografar o Pickle",
+      "Manter a precisão total em .bin para não perder qualidade"
+    ],
+    answer: 1,
+    explain: "Rodar local e pequeno → <b>quantização + .gguf</b> (usado por Ollama). Segurança contra código escondido → fugir do <b>.pkl</b> (caixa opaca) e preferir formatos transparentes como <code>.safetensors</code>/<code>.gguf</code>."
+  },
+  {
+    q: "Durante o desenvolvimento, um cientista muda o learning rate e o número de camadas e roda o treino de novo. O que ele alterou e o que aparece no arquivo final do modelo?",
+    options: [
+      "Alterou parâmetros; o arquivo final não muda",
+      "Alterou hiperparâmetros/arquitetura (escolhas dele); o resultado são novos parâmetros (pesos) gravados no arquivo",
+      "Alterou os pesos diretamente; o arquivo continua idêntico",
+      "Alterou o embedding; o tokenizer é recriado"
+    ],
+    answer: 1,
+    explain: "Learning rate e nº de camadas são <b>hiperparâmetros/arquitetura</b> — escolhas do humano ANTES do treino. Eles influenciam o treinamento, cujo produto são os <b>parâmetros (pesos)</b> aprendidos que ficam salvos no arquivo."
+  },
+  {
+    q: "Uma startup de saúde cresce 10× em usuários e lida com dados médicos sigilosos. Quais argumentos favorecem migrar da API na nuvem para IA local?",
+    options: [
+      "Apenas performance, pois a nuvem é sempre mais lenta",
+      "Nenhum: a nuvem é sempre a melhor opção",
+      "Privacidade (dados sensíveis não saem da infraestrutura) e previsibilidade de custo (local é fixo; a API cobra por volume e escalaria 10×)",
+      "Apenas o fato de a IA local ser gratuita"
+    ],
+    answer: 2,
+    explain: "Dois dos \"3 Ps\" pesam aqui: <b>Privacidade</b> (dados médicos não viajam pra fora) e <b>Previsibilidade de custo</b> (na API o custo cresceria junto com os 10× de uso; local o custo é o hardware, fixo)."
+  },
+  {
+    q: "Classifique corretamente: (I) um chatbot que responde ao usuário em milissegundos e (II) o cálculo do score de crédito de TODOS os clientes do banco durante a madrugada.",
+    options: [
+      "I é Batch; II é Real-time",
+      "I é Real-time (online, vira API); II é Batch (roda em lote)",
+      "Ambos são Real-time",
+      "Ambos são Batch"
+    ],
+    answer: 1,
+    explain: "Responder na hora, sob demanda = <b>Real-time/online</b> (o modelo vira uma API). Processar milhões de registros de uma vez, agendado = <b>Batch/lote</b>. São as duas formas de Deployment no MLOps."
+  },
+  {
+    q: "Você treinou um conversor de temperatura e salvou como conversor_v1.pkl. Um amigo baixa o arquivo e usa sua IA sem treinar nada. Isso ilustra melhor qual ideia?",
+    options: [
+      "Que o algoritmo é portátil, mas o modelo precisa ser retreinado em cada máquina",
+      "Que o modelo é um artefato de software portátil: o conhecimento ficou \"cristalizado\" no arquivo, diferente do algoritmo (a lógica de aprendizado vazia)",
+      "Que o .pkl é o formato mais seguro para compartilhar",
+      "Que embeddings viajam junto com o tokenizer"
+    ],
+    answer: 1,
+    explain: "O amigo não precisa treinar porque o <b>modelo</b> (o conhecimento aprendido) está congelado no arquivo. Isso separa o <b>modelo</b> (resultado portátil) do <b>algoritmo</b> (a ferramenta vazia de aprendizado)."
+  },
+  {
+    q: "O \"Modelo de Preço v2.0\" começa a dar prejuízo por Data Drift. Enquanto a equipe coleta dados novos para retreinar, qual ação imediata estanca o problema — e graças a qual fase do MLOps?",
+    options: [
+      "Aumentar a quantização do modelo, graças ao Deployment",
+      "Fazer rollback para a v1.9, graças ao Model Registry, que guarda as versões antigas catalogadas",
+      "Trocar de .pkl para .safetensors, graças ao Monitoramento",
+      "Reiniciar o servidor, graças ao Desenvolvimento"
+    ],
+    answer: 1,
+    explain: "O <b>Model Registry</b> guarda cada versão catalogada, então dá pra fazer <b>rollback</b> imediato para a v1.9 e parar o prejuízo — enquanto, em paralelo, o ciclo segue coletando dados e retreinando para resolver o Data Drift."
+  }
+];
+
+const quizEl = document.getElementById('quiz');
+const totalEl = document.getElementById('total');
+const answeredEl = document.getElementById('answered');
+const hitsEl = document.getElementById('hits');
+const progbar = document.getElementById('progbar');
+const resultEl = document.getElementById('result');
+const KEYS = ['A','B','C','D'];
+
+let answered = 0, hits = 0;
+const done = new Array(QUESTIONS.length).fill(false);
+
+totalEl.textContent = QUESTIONS.length;
+document.getElementById('finaltotal').textContent = QUESTIONS.length;
+
+function buildQuiz(){
+  quizEl.innerHTML = '';
+  QUESTIONS.forEach((item, qi) => {
+    if(item.section){
+      const div = document.createElement('div');
+      div.className = 'q-divider';
+      div.textContent = item.section;
+      quizEl.appendChild(div);
+    }
+    const card = document.createElement('div');
+    card.className = 'q';
+    card.innerHTML = `
+      <div class="q-top">
+        <span class="q-num">${String(qi+1).padStart(2,'0')}</span>
+        <div class="q-text">${item.q}</div>
+      </div>
+      <div class="opts" id="opts-${qi}"></div>
+      <div class="explain" id="exp-${qi}"></div>`;
+    quizEl.appendChild(card);
+
+    const opts = card.querySelector(`#opts-${qi}`);
+    item.options.forEach((text, oi) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerHTML = `<span class="key">${KEYS[oi]}</span><span>${text}</span>`;
+      btn.onclick = () => choose(qi, oi, item.answer);
+      opts.appendChild(btn);
+    });
+  });
+}
+
+function choose(qi, oi, correct){
+  if(done[qi]) return;
+  done[qi] = true;
+  answered++;
+
+  const opts = document.querySelectorAll(`#opts-${qi} .opt`);
+  opts.forEach((b, i) => {
+    b.disabled = true;
+    if(i === correct) b.classList.add('correct');
+    else if(i === oi) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const exp = document.getElementById(`exp-${qi}`);
+  const right = oi === correct;
+  if(right) hits++;
+  exp.innerHTML = (right
+      ? '<b>Certo! </b>'
+      : `<b>Quase. </b>A resposta correta é <b>${KEYS[correct]}</b>. `)
+    + QUESTIONS[qi].explain;
+  exp.classList.add('show');
+
+  answeredEl.textContent = answered;
+  hitsEl.textContent = hits;
+  progbar.style.width = (answered / QUESTIONS.length * 100) + '%';
+
+  if(answered === QUESTIONS.length) showResult();
+}
+
+function showResult(){
+  document.getElementById('finalscore').textContent = hits;
+  const pct = hits / QUESTIONS.length;
+  let verdict, msg;
+  if(pct === 1){ verdict = 'Modelo calibrado! 🎯'; msg = 'Gabaritou. Você entende a anatomia de um modelo do arquivo ao MLOps. Pode fechar o capô.'; }
+  else if(pct >= 0.8){ verdict = 'Muito bem treinado.'; msg = 'Ótimo domínio. Revise só as questões marcadas em vermelho e você fica redondo.'; }
+  else if(pct >= 0.6){ verdict = 'Bom progresso.'; msg = 'Base sólida, mas ainda há drift. Releia o resumo nos pontos que errou e refaça o quiz.'; }
+  else { verdict = 'Hora de retreinar.'; msg = 'Sem crise — volte ao resumo com calma, foque nas analogias e refaça. É assim que o modelo aprende.'; }
+  document.getElementById('verdict').textContent = verdict;
+  document.getElementById('rmsg').textContent = msg;
+  resultEl.classList.add('show');
+  resultEl.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function resetQuiz(){
+  answered = 0; hits = 0;
+  done.fill(false);
+  answeredEl.textContent = '0';
+  hitsEl.textContent = '0';
+  progbar.style.width = '0';
+  resultEl.classList.remove('show');
+  buildQuiz();
+  document.getElementById('quiz-head').scrollIntoView({behavior:'smooth'});
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

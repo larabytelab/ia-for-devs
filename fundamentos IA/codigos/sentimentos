@@ -1,0 +1,45 @@
+# Importando as bibliotecas necessárias
+from textblob import TextBlob
+from googletrans import Translator
+
+# Inicializando o tradutor
+translator = Translator()
+
+# Lista de feedbacks de usuários
+feedbacks = [
+    "Odiei o aplicativo, não consegui usar de jeito nenhum",
+    "Amei, muito legal",
+    "Odiei, péssimo",
+    "Ok, nada demais",
+    "O suporte é horrível, ninguém responde.",
+    "A interface é bonita, mas poderia ser mais rápida.",
+    "Muito bom! Uso todos os dias.",
+    "Não gostei, é muito complicado de navegar.",
+    "O app cumpre o que promete, nada de extraordinário.",
+    "Odiei o aplicativo, credo!"
+]
+
+# Função para traduzir e analisar o sentimento de cada feedback
+def analisar_sentimento(feedback):
+    # Traduzindo o feedback para inglês
+    traducao = translator.translate(feedback, dest='en')
+    texto_traduzido = traducao.text
+    print(f"Texto original: '{feedback}' → Traduzido: '{texto_traduzido}'")
+
+    # Analisando o sentimento usando TextBlob
+    analise = TextBlob(texto_traduzido)
+    polaridade = analise.sentiment.polarity
+
+    # Classificando o sentimento
+    if polaridade > 0:
+        return "Positivo"
+    elif polaridade < 0:
+        return "Negativo"
+    else:
+        return "Neutro"
+
+# Analisando cada feedback
+print("\nAnálise de Sentimento dos Feedbacks:")
+for feedback in feedbacks:
+    sentimento = analisar_sentimento(feedback)
+    print(f"Feedback: '{feedback}' → Sentimento: {sentimento}")

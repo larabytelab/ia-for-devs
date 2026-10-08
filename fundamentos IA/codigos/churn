@@ -1,0 +1,44 @@
+# Importando as bibliotecas necessárias
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Dados de exemplo para predição de churn
+# 1 = Usuário cancelou, 0 = Usuário permaneceu
+# Features: [Tempo de uso (em meses), Número de acessos por mês, Suporte ao cliente utilizado]
+dados = [
+    [12, 20, 1, 0],  # Não cancelou
+    [8, 5, 0, 1],   # Cancelou
+    [6, 2, 2, 1],   # Cancelou
+    [15, 25, 0, 0], # Não cancelou
+    [4, 1, 3, 1],   # Cancelou
+    [9, 15, 1, 0],  # Não cancelou
+    [7, 8, 2, 1],   # Cancelou
+    [10, 22, 0, 0], # Não cancelou (Novo dado)
+    [14, 18, 0, 0], # Não cancelou (Novo dado)
+    [5, 3, 2, 1],   # Cancelou (Novo dado)
+    [15, 3, 2, 0],   # Não Cancelou (Novo dado)
+]
+
+
+# Separando dados de entrada (X) e saídas (y)
+X = [linha[:-1] for linha in dados]  # Features
+y = [linha[-1] for linha in dados]   # Churn (0 ou 1)
+
+# Separando dados para treino e teste
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Criando um modelo simples de Random Forest
+modelo = RandomForestClassifier(n_estimators=100, random_state=42)
+modelo.fit(X_train, y_train)
+
+# Fazendo previsões e calculando a acurácia
+y_pred = modelo.predict(X_test)
+acuracia = accuracy_score(y_test, y_pred)
+
+print(f"Acurácia do modelo de predição de Churn: {acuracia * 100:.2f}%")
+
+# Testando uma nova previsão
+novo_usuario = [[2, 0, 9]] # dados a serem alterados
+churn_previsto = modelo.predict(novo_usuario)
+print("Churn previsto para o novo usuário:", "Sim" if churn_previsto[0] == 1 else "Não")
